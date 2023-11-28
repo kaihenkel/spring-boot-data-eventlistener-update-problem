@@ -14,4 +14,6 @@ logging:
   level:
     root: info
     sql: debug
+    'org.springframework.orm.jpa': debug
+    'org.springframework.transaction': debug
     'io.d4e': debug

@@ -2,6 +2,7 @@ package io.d4e.data.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Entity
 @Table(name="parent")
 @EntityListeners(AuditingEntityListener.class)
@@ -23,7 +25,7 @@ public class ParentEntity {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    @OneToMany(mappedBy = "parent", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<ChildEntity> children;
 
     private String value;
@@ -31,13 +33,14 @@ public class ParentEntity {
     public ParentEntity setValue(String value) {
         this.value = value;
         // works when calling directly
-        giveValueToChildren();
+//        updateChildren();
         return this;
     }
 // Does not work on when using event-handlers
-//    @PrePersist
-//    @PreUpdate
-    void giveValueToChildren() {
+    @PreUpdate
+    @PrePersist
+    void updateChildren() {
+        log.debug("+++++ update-children");
         if (children!=null) {
             children.forEach(ChildEntity::inheritValue);
         }

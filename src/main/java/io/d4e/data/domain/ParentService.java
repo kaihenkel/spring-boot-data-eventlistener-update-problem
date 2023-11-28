@@ -32,6 +32,7 @@ public class ParentService {
         log.debug("----- update:start -----");
         ParentEntity parent = repository.findById(ParentEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Unknown Parent"));
         parent.setValue(value);
+//        parent.getChildren().forEach(ChildEntity::inheritValue);
 //        repository.save(parent);
         log.debug("----- update:end -----");
     }

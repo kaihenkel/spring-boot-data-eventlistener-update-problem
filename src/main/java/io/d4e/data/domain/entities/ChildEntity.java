@@ -1,5 +1,6 @@
 package io.d4e.data.domain.entities;
 
+import io.d4e.data.domain.listeners.CustomEntityListener;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "child")
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners({AuditingEntityListener.class, CustomEntityListener.class})
 @Data
 @Slf4j
 public class ChildEntity {
@@ -28,9 +29,10 @@ public class ChildEntity {
 
     private String value;
 
-//    @PreUpdate
+    @PrePersist
+    @PreUpdate
     public void inheritValue() {
-        log.debug("inheriting value {} -> {}", this.value, this.parent.getValue());
+        log.debug("+++++ inheriting value {} -> {}", this.value, this.parent.getValue());
         this.value = this.parent.getValue();
     }
 

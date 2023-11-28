@@ -25,11 +25,15 @@ class ParentServiceTest {
     void testUpdate() {
         log.debug("----- test: start");
         String value = "some-value";
-        service.update(value);
-        log.debug("----- test:update-complete");
 
+        log.debug("----- test:update: start");
+        service.update(value);
+        log.debug("----- test:update: complete");
+
+        log.debug("----- test:fetch-child: start");
         ChildEntity actual = childRepository.findById(ChildEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Child Entity not found"));
-        log.debug("----- test:fetch-child");
+        log.debug("----- test:fetch-child: complete");
         assertThat(actual.getValue(), equalTo(value));
+        log.debug("----- test: complete");
     }
 }
