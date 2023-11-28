@@ -30,9 +30,11 @@ public class ParentEntity {
 
     public ParentEntity setValue(String value) {
         this.value = value;
+        // works when calling directly
         giveValueToChildren();
         return this;
     }
+// Does not work on when using event-handlers
 //    @PrePersist
 //    @PreUpdate
     void giveValueToChildren() {
