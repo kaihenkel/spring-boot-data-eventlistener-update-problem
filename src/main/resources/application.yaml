@@ -5,6 +5,13 @@ spring:
     password: 'admin'
   jpa:
     generate-ddl: true
+    hibernate:
+      ddl-auto: create
     properties:
       hibernate:
-        show_sql: true
+#        show_sql: true
+logging:
+  level:
+    root: info
+    sql: debug
+    'io.d4e': debug
