@@ -15,9 +15,10 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 @Data
 public class ParentEntity {
+    public static final UUID PRIMARY_KEY = UUID.fromString("1b649cc1-f150-47e7-84f0-9eacbb41ff7c");
     @Id
-    @GeneratedValue
-    private UUID id;
+//    @GeneratedValue
+    private UUID id = PRIMARY_KEY;
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;

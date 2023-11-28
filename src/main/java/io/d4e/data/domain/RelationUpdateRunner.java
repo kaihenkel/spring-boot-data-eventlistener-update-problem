@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Slf4j
-@Service
+//@Service
 @RequiredArgsConstructor
 public class RelationUpdateRunner implements CommandLineRunner {
 
