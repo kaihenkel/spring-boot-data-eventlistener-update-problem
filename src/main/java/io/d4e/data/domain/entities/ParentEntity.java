@@ -18,12 +18,9 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @ToString(exclude = {"children"})
-//@NamedEntityGraph(name = "ParentEntity.children",
-//        attributeNodes = @NamedAttributeNode("children"))
 public class ParentEntity {
     public static final UUID PRIMARY_KEY = UUID.fromString("1b649cc1-f150-47e7-84f0-9eacbb41ff7c");
     @Id
-//    @GeneratedValue
     private UUID id = PRIMARY_KEY;
 
     private UUID name = PRIMARY_KEY;
@@ -39,14 +36,14 @@ public class ParentEntity {
     public ParentEntity setValue(String value) {
         this.value = value;
         // works when calling directly
-//        updateChildren();
+        // updateChildren();
         return this;
     }
-// Does not work on when using event-handlers
     @PreUpdate
     @PrePersist
     void updateChildren() {
         log.debug("+++++ update-children");
+        // Does not work on when using event-handlers
         if (children!=null) {
             children.forEach(ChildEntity::inheritValue);
         }

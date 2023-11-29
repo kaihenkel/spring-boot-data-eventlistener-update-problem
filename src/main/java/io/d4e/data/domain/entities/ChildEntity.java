@@ -18,7 +18,6 @@ import java.util.UUID;
 public class ChildEntity {
     public static final UUID PRIMARY_KEY = UUID.fromString("812c3d6d-ea24-4755-ac0e-38a9ec7f60b7");
     @Id
-//    @GeneratedValue
     private UUID id = PRIMARY_KEY;
     @ManyToOne
     @JoinColumn(name="parent_id")

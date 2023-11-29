@@ -4,16 +4,21 @@ import io.d4e.data.domain.ParentService;
 import io.d4e.data.domain.entities.ChildEntity;
 import io.d4e.data.domain.repositories.ChildRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 @Slf4j
 @SpringBootTest
-class ParentServiceTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class UpdateByNameFirstDirtiesMethodTest {
 
     @Autowired
     private ParentService service;
@@ -22,12 +27,14 @@ class ParentServiceTest {
     private ChildRepository childRepository;
 
     @Test
-    void testUpdate() {
+    @Order(2)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    void testUpdateById() {
         log.debug("----- test: start");
         String value = "some-value";
 
         log.debug("----- test:update: start");
-        service.update(value);
+        service.updateById(value);
         log.debug("----- test:update: complete");
 
         log.debug("----- test:fetch-child: start");
@@ -38,12 +45,14 @@ class ParentServiceTest {
     }
 
     @Test
-    void testUpdate2() {
+    @Order(1)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    void testupdateByName() {
         log.debug("----- test: start");
         String value = "some-value";
 
         log.debug("----- test:update: start");
-        service.update2(value);
+        service.updateByName(value);
         log.debug("----- test:update: complete");
 
         log.debug("----- test:fetch-child: start");
