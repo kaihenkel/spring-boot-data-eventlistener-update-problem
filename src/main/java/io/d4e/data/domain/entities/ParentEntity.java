@@ -2,6 +2,7 @@ package io.d4e.data.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,16 +17,21 @@ import java.util.UUID;
 @Table(name="parent")
 @EntityListeners(AuditingEntityListener.class)
 @Data
+@ToString(exclude = {"children"})
+//@NamedEntityGraph(name = "ParentEntity.children",
+//        attributeNodes = @NamedAttributeNode("children"))
 public class ParentEntity {
     public static final UUID PRIMARY_KEY = UUID.fromString("1b649cc1-f150-47e7-84f0-9eacbb41ff7c");
     @Id
 //    @GeneratedValue
     private UUID id = PRIMARY_KEY;
 
+    private UUID name = PRIMARY_KEY;
+
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ChildEntity> children;
 
     private String value;

@@ -36,4 +36,14 @@ public class ParentService {
 //        repository.save(parent);
         log.debug("----- update:end -----");
     }
+
+    @Transactional
+    public void update2(String value) {
+        log.debug("----- update:start -----");
+        ParentEntity parent = repository.findByName(ParentEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Unknown Parent"));
+        parent.setValue(value);
+//        parent.getChildren().forEach(ChildEntity::inheritValue);
+//        repository.save(parent);
+        log.debug("----- update:end -----");
+    }
 }
