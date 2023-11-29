@@ -13,11 +13,10 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
 
 @Slf4j
 @SpringBootTest
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 class ParentServiceTest {
 
     @Autowired
@@ -30,12 +29,92 @@ class ParentServiceTest {
     private LazyChildRepository lazyChildRepository;
 
     @Test
+    void testUpdateById_LazyChildCheck() {
+        log.debug("----- test: start");
+        String value = "testUpdateById_LazyChildCheck";
+
+        log.debug("----- test:update: start");
+        service.updateById(value);
+        log.debug("----- test:update: complete");
+
+        log.debug("----- test:fetch-child: start");
+        LazyChildEntity actual = lazyChildRepository.findById(LazyChildEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Child Entity not found"));
+        log.debug("----- test:fetch-child: complete");
+        assertThat(actual.getValue(), equalTo(value));
+        log.debug("----- test: complete");
+    }
+
+    @Test
+    void testUpdateById_LazyChildCheck_access() {
+        log.debug("----- test: start");
+        String value = "testUpdateById_LazyChildCheck_access";
+
+        log.debug("----- test:update: start");
+        service.updateByIdCountLazy(value);
+        log.debug("----- test:update: complete");
+
+        log.debug("----- test:fetch-child: start");
+        LazyChildEntity actual = lazyChildRepository.findById(LazyChildEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Child Entity not found"));
+        log.debug("----- test:fetch-child: complete");
+        assertThat(actual.getValue(), equalTo(value));
+        log.debug("----- test: complete");
+    }
+
+    @Test
+    void testupdateByName_LazyChildCheck() {
+        log.debug("----- test: start");
+        String value = "testupdateByName_LazyChildCheck";
+
+        log.debug("----- test:update: start");
+        service.updateByName(value);
+        log.debug("----- test:update: complete");
+
+        log.debug("----- test:fetch-child: start");
+        LazyChildEntity actual = lazyChildRepository.findById(LazyChildEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Child Entity not found"));
+        log.debug("----- test:fetch-child: complete");
+        assertThat(actual.getValue(), equalTo(value));
+        log.debug("----- test: complete");
+    }
+
+    @Test
+    void testUpdateByName_LazyChildCheck_access() {
+        log.debug("----- test: start");
+        String value = "testUpdateByName_LazyChildCheck_access";
+
+        log.debug("----- test:update: start");
+        service.updateByNameCountLazy(value);
+        log.debug("----- test:update: complete");
+
+        log.debug("----- test:fetch-child: start");
+        LazyChildEntity actual = lazyChildRepository.findById(LazyChildEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Child Entity not found"));
+        log.debug("----- test:fetch-child: complete");
+        assertThat(actual.getValue(), equalTo(value));
+        log.debug("----- test: complete");
+    }
+
+    @Test
     void testUpdateById_EagerChildCheck() {
         log.debug("----- test: start");
         String value = "testUpdateById_EagerChildCheck";
 
         log.debug("----- test:update: start");
         service.updateById(value);
+        log.debug("----- test:update: complete");
+
+        log.debug("----- test:fetch-child: start");
+        EagerChildEntity actual = eagerChildRepository.findById(EagerChildEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Child Entity not found"));
+        log.debug("----- test:fetch-child: complete");
+        assertThat(actual.getValue(), equalTo(value));
+        log.debug("----- test: complete");
+    }
+
+    @Test
+    void testUpdateById_EagerChildCheck_access() {
+        log.debug("----- test: start");
+        String value = "testUpdateById_EagerChildCheck_access";
+
+        log.debug("----- test:update: start");
+        service.updateByIdCountEager(value);
         log.debug("----- test:update: complete");
 
         log.debug("----- test:fetch-child: start");
@@ -61,33 +140,18 @@ class ParentServiceTest {
         log.debug("----- test: complete");
     }
 
+
     @Test
-    void testUpdateById_LazyChildCheck() {
+    void testUpdateByName_EagerChildCheck_access() {
         log.debug("----- test: start");
-        String value = "testUpdateById_LazyChildCheck";
+        String value = "testUpdateByName_EagerChildCheck_access";
 
         log.debug("----- test:update: start");
-        service.updateById(value);
+        service.updateByNameCountEager(value);
         log.debug("----- test:update: complete");
 
         log.debug("----- test:fetch-child: start");
-        LazyChildEntity actual = lazyChildRepository.findById(LazyChildEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Child Entity not found"));
-        log.debug("----- test:fetch-child: complete");
-        assertThat(actual.getValue(), equalTo(value));
-        log.debug("----- test: complete");
-    }
-
-    @Test
-    void testupdateByName_LazyChildCheck() {
-        log.debug("----- test: start");
-        String value = "testupdateByName_LazyChildCheck";
-
-        log.debug("----- test:update: start");
-        service.updateByName(value);
-        log.debug("----- test:update: complete");
-
-        log.debug("----- test:fetch-child: start");
-        LazyChildEntity actual = lazyChildRepository.findById(LazyChildEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Child Entity not found"));
+        EagerChildEntity actual = eagerChildRepository.findById(EagerChildEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Child Entity not found"));
         log.debug("----- test:fetch-child: complete");
         assertThat(actual.getValue(), equalTo(value));
         log.debug("----- test: complete");

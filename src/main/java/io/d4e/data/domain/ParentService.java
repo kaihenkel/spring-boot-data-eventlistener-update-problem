@@ -42,4 +42,45 @@ public class ParentService {
         parent.setValue(value);
         log.debug("----- update:end -----");
     }
+
+    @Transactional
+    public void updateByIdCountEager(String value) {
+        log.debug("----- update:start -----");
+        ParentEntity parent = repository.findById(ParentEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Unknown Parent"));
+        parent.setValue(value);
+        long eager = parent.getEagerChildren().size();
+        log.debug("counted eager: {}", eager);
+        log.debug("-----  update:end  -----");
+    }
+
+    @Transactional
+    public void updateByIdCountLazy(String value) {
+        log.debug("----- update:start -----");
+        ParentEntity parent = repository.findById(ParentEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Unknown Parent"));
+        parent.setValue(value);
+        long lazy = parent.getLazyChildren().size();
+        log.debug("counted lazy: {}", lazy);
+        log.debug("-----  update:end  -----");
+    }
+
+
+    @Transactional
+    public void updateByNameCountEager(String value) {
+        log.debug("----- update:start -----");
+        ParentEntity parent = repository.findByName(ParentEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Unknown Parent"));
+        parent.setValue(value);
+        long eager = parent.getEagerChildren().size();
+        log.debug("counted eager: {}", eager);
+        log.debug("-----  update:end  -----");
+    }
+
+    @Transactional
+    public void updateByNameCountLazy(String value) {
+        log.debug("----- update:start -----");
+        ParentEntity parent = repository.findByName(ParentEntity.PRIMARY_KEY).orElseThrow(() -> new RuntimeException("Unknown Parent"));
+        parent.setValue(value);
+        long lazy = parent.getLazyChildren().size();
+        log.debug("counted lazy: {}", lazy);
+        log.debug("-----  update:end  -----");
+    }
 }

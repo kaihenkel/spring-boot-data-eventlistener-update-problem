@@ -1,7 +1,6 @@
 package io.d4e.data.domain.repositories;
 
 import io.d4e.data.domain.entities.ParentEntity;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
