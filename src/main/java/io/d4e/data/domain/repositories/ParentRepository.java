@@ -7,5 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ParentRepository extends JpaRepository<ParentEntity, UUID> {
+    @Override
+    Optional<ParentEntity> findById(UUID uuid);
+
     Optional<ParentEntity> findByName(UUID name);
 }
