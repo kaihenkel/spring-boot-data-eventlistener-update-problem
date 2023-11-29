@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @Slf4j
 @SpringBootTest
-//@ActiveProfiles("test")
+@ActiveProfiles("test")
 class ParentServiceTest {
 
     @Autowired
