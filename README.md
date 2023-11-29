@@ -5,6 +5,7 @@ in the Jakarta Event-Listener callback @PreUpdate.
 The updated related entities are not persisted when the relation is not accessed during 
 the transaction that triggers the update event.
 
+This Relates to [this StackOverflow Question](https://stackoverflow.com/questions/77572295/spring-boot-data-update-related-entity-from-event-listener-callback)
 ## General Problem
 
 We have to entities, Parent and Child with a one-to-many relationship between them.
