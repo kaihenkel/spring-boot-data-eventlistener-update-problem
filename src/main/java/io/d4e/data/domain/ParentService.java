@@ -1,6 +1,7 @@
 package io.d4e.data.domain;
 
-import io.d4e.data.domain.entities.ChildEntity;
+import io.d4e.data.domain.entities.EagerChildEntity;
+import io.d4e.data.domain.entities.LazyChildEntity;
 import io.d4e.data.domain.entities.ParentEntity;
 import io.d4e.data.domain.repositories.ParentRepository;
 import jakarta.annotation.PostConstruct;
@@ -20,7 +21,8 @@ public class ParentService {
     void init() {
         log.debug("----- Init:start -----");
         ParentEntity parent = new ParentEntity();
-        parent.addChild(new ChildEntity());
+        parent.addEagerChild(new EagerChildEntity());
+        parent.addLazyChild(new LazyChildEntity());
         repository.save(parent);
         log.debug("----- Init:end -----");
     }

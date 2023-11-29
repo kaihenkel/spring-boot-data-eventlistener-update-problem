@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "child")
+@Table(name = "lazy_child")
 @EntityListeners({AuditingEntityListener.class, CustomEntityListener.class})
 @Data
 @Slf4j
-public class ChildEntity {
+public class LazyChildEntity {
     public static final UUID PRIMARY_KEY = UUID.fromString("812c3d6d-ea24-4755-ac0e-38a9ec7f60b7");
     @Id
     private UUID id = PRIMARY_KEY;

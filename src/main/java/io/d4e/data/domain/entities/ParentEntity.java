@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -17,7 +20,7 @@ import java.util.UUID;
 @Table(name="parent")
 @EntityListeners(AuditingEntityListener.class)
 @Data
-@ToString(exclude = {"children"})
+@ToString(exclude = {"eagerChildren", "lazyChildren"})
 public class ParentEntity {
     public static final UUID PRIMARY_KEY = UUID.fromString("1b649cc1-f150-47e7-84f0-9eacbb41ff7c");
     @Id
@@ -28,8 +31,12 @@ public class ParentEntity {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
+    //@Fetch(FetchMode.SELECT)
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ChildEntity> children;
+    private List<EagerChildEntity> eagerChildren;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<LazyChildEntity> lazyChildren;
 
     private String value;
 
@@ -44,16 +51,27 @@ public class ParentEntity {
     void updateChildren() {
         log.debug("+++++ update-children");
         // Does not work on when using event-handlers
-        if (children!=null) {
-            children.forEach(ChildEntity::inheritValue);
+        if (eagerChildren!=null) {
+            eagerChildren.forEach(EagerChildEntity::inheritValue);
+        }
+        if (lazyChildren!=null) {
+            lazyChildren.forEach(LazyChildEntity::inheritValue);
         }
     }
 
-    public void addChild(ChildEntity child) {
-        if (children == null) {
-            children = new ArrayList<>();
+    public void addEagerChild(EagerChildEntity eagerChild) {
+        if (eagerChildren == null) {
+            eagerChildren = new ArrayList<>();
         }
-        children.add(child);
-        child.setParent(this);
+        eagerChildren.add(eagerChild);
+        eagerChild.setParent(this);
+    }
+
+    public void addLazyChild(LazyChildEntity lazyChild) {
+        if (lazyChildren == null) {
+            lazyChildren = new ArrayList<>();
+        }
+        lazyChildren.add(lazyChild);
+        lazyChild.setParent(this);
     }
 }
